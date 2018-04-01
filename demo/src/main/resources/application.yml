@@ -1,0 +1,23 @@
+server:
+  port: 8081
+  ssl:
+        key-store: classpath:gdglc
+        key-store-password: chenyy
+        key-alias: authserver
+        client-auth: want
+        protocol: TLS
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/glcrm?characterEncoding=utf-8&createDatabaseIfNotExist=true&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+mapper:
+  dialect: mysql
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  show-sql: true

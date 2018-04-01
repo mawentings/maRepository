@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo07.dao.UserMapper">
+    <resultMap  id="userResultMap" type="com.example.demo07.models.User">
+        <id property="id" column="id"/>
+        <result property="account_expired" column="account_expired"/>
+        <result property="username" column="username"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <select id="getAllUser" resultMap="userResultMap">
+        SELECT * FROM USER
+    </select>
+    <sql id="usersql">
+         u.account_expired As accountexpired,
+         u.account_locked As accountlocked,
+         u.credentials_expired,
+         u.account_enabled,
+         u.first_name,
+         u.isinuser,
+         u.last_name,
+         u.password,
+         u.username,
+         u.version,
+    </sql>
+
+
+    <select id="getUserByPage" resultMap="userResultMap" parameterType="com.example.demo07.models.User">
+        select
+        <include refid="usersql"/>
+        u.id as uid
+        from user u
+         <where>
+            <if test="id!=null and id!='' ">
+                and u.id=#{id}
+            </if>
+
+             <if test="password!=null and password!=''">
+                 <!--CDATA必须大写  r.revisit_time  between #{revisitTimeStart} and #{revisitTimeEnd}-->
+                 <![CDATA[ AND  u.password=#{password} ]]>
+             </if>
+         </where>
+    </select>
+</mapper>
